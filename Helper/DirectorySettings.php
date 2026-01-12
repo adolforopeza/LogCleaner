@@ -16,6 +16,7 @@ use Magento\Framework\Filesystem\Driver\File;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Exception;
+use Aoropeza\LogCleaner\Helper\Settings;
 
 class DirectorySettings extends AbstractHelper
 {
@@ -39,17 +40,25 @@ class DirectorySettings extends AbstractHelper
     private File $driverFile;
 
     /**
+     * @var Settings
+     */
+    private Settings $settings;
+
+    /**
      * @param Context $context
      * @param DirectoryList $directoryList
      * @param File $driverFile
+     * @param Settings $settings
      */
     public function __construct(
         Context $context,
         DirectoryList $directoryList,
-        File $driverFile
+        File $driverFile,
+        Settings $settings
     ) {
         $this->directoryList = $directoryList;
         $this->driverFile = $driverFile;
+        $this->settings = $settings;
         parent::__construct($context);
     }
 
@@ -116,7 +125,7 @@ class DirectorySettings extends AbstractHelper
      */
     private function getHumanReadableSize($bytes): string
     {
-        $bytes = (int)$bytes;
+        $bytes = (int) $bytes;
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
         $bytes = max($bytes, 0);
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
@@ -183,6 +192,10 @@ class DirectorySettings extends AbstractHelper
                 );
             }
 
+            if ($this->settings->isBackupEnabled()) {
+                $this->backupDirectory($directoryPath);
+            }
+
             // Get all files and directories
             $files = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($directoryPath, FilesystemIterator::SKIP_DOTS),
@@ -204,5 +217,61 @@ class DirectorySettings extends AbstractHelper
                 __('DIRECTORY CLEANUP FAILED %1: %2', $directoryPath, $e->getMessage())
             );
         }
+    }
+
+    /**
+     * Backup directory to zip
+     *
+     * @param string $sourcePath
+     * @param string|null $destinationPath
+     * @return string
+     * @throws FileSystemException
+     */
+    public function backupDirectory(string $sourcePath, ?string $destinationPath = null): string
+    {
+        if (!$this->driverFile->isExists($sourcePath)) {
+            throw new FileSystemException(
+                __('Source directory does not exist: %1', $sourcePath)
+            );
+        }
+
+        if ($destinationPath === null) {
+            $varPath = $this->getVarBaseDirectoryPath();
+            $backupDir = $varPath . 'backups';
+
+            if (!$this->driverFile->isExists($backupDir)) {
+                $this->driverFile->createDirectory($backupDir, 0755);
+            }
+
+            $timestamp = date('Ymd_His');
+            $dirName = basename($sourcePath);
+            $destinationPath = $backupDir . DIRECTORY_SEPARATOR . $dirName . '_' . $timestamp . '.zip';
+        }
+
+        $zip = new \ZipArchive();
+        if ($zip->open($destinationPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) !== true) {
+            throw new FileSystemException(
+                __('Cannot create zip file: %1', $destinationPath)
+            );
+        }
+
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($sourcePath, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        foreach ($files as $name => $file) {
+            if (!$file->isDir()) {
+                $filePath = $file->getRealPath();
+                $sourcePathReal = realpath($sourcePath);
+                $relativePath = substr($filePath, strlen($sourcePathReal) + 1);
+
+                $zip->addFile($filePath, $relativePath);
+            }
+        }
+
+        $zip->close();
+
+        return $destinationPath;
     }
 }

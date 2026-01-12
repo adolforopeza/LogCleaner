@@ -19,6 +19,7 @@ class Settings extends AbstractHelper
     private const LOGCLEANER_FREQUENCY = self::LOGCLEANER_GENERAL . "frequency";
     private const LOGCLEANER_CAPACITY = self::LOGCLEANER_GENERAL . "capacity";
     private const LOGCLEANER_CAPACITY_CONF = self::LOGCLEANER_GENERAL . "capacity_conf";
+    private const LOGCLEANER_BACKUP = self::LOGCLEANER_GENERAL . "backup";
     private const LOGCLEANER_FOLDERS = "log_cleaner/folders/";
     private const LOGCLEANER_LIST = self::LOGCLEANER_FOLDERS . "list";
 
@@ -38,7 +39,7 @@ class Settings extends AbstractHelper
      */
     public function isModuleEnable(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::LOGCLEANER_ENABLE, ScopeInterface::SCOPE_STORE);
+        return (bool) $this->scopeConfig->getValue(self::LOGCLEANER_ENABLE, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -58,7 +59,7 @@ class Settings extends AbstractHelper
      */
     public function getCapacity(): string
     {
-        return (string)$this->scopeConfig->getValue(self::LOGCLEANER_CAPACITY, ScopeInterface::SCOPE_STORE);
+        return (string) $this->scopeConfig->getValue(self::LOGCLEANER_CAPACITY, ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -68,7 +69,17 @@ class Settings extends AbstractHelper
      */
     public function getCapacityConf(): bool
     {
-        return $this->scopeConfig->isSetFlag(self::LOGCLEANER_CAPACITY_CONF, ScopeInterface::SCOPE_STORE);
+        return (bool) $this->scopeConfig->getValue(self::LOGCLEANER_CAPACITY_CONF, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Indicates whether it is necessary to back up the directory.
+     * 
+     * @return bool
+     */
+    public function isBackupEnabled(): bool
+    {
+        return (bool) $this->scopeConfig->getValue(self::LOGCLEANER_BACKUP, ScopeInterface::SCOPE_STORE);
     }
 
     /**
