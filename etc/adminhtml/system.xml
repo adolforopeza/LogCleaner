@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="aoropeza" translate="label" sortOrder="500">
+            <label>Dev Oropeza</label>
+        </tab>
+        <section id="log_cleaner" sortOrder="1" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+            <label>Log Directory</label>
+            <tab>aoropeza</tab>
+            <resource>Aoropeza_LogCleaner::config_aoropeza_logcleaner</resource>
+            <group id="general" sortOrder="1" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                <label>General</label>
+                <field id="enable" type="select" sortOrder="1" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Enable</label>
+                    <comment>Enables or Disables the module execution functionalities.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="capacity_conf" type="select" sortOrder="2" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Directory Capacity</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>empties all directories configured or under a condition of a specified size</comment>
+                </field>
+                <field id="capacity" type="text" sortOrder="3" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <depends>
+                        <field id="capacity_conf">1</field>
+                    </depends>
+                    <label>Directory Size</label>
+                    <comment>if a directory exceeds the indicated capacity, its contents will be emptied. Ex. 1GB</comment>
+                </field>
+                <field id="frequency" type="text" sortOrder="4" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Frequency</label>
+                    <comment>frequency at which the cron is run, Ex. * * * * *  to run every minute</comment>
+                </field>
+            </group>
+            <group id="folders" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" translate="label">
+                <label>Folders to clean</label>
+                <field id="list" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Folders</label>
+                    <frontend_model>Aoropeza\LogCleaner\Block\Adminhtml\Form\Folders\FieldLandingFiltred</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>Select the folders to clean</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

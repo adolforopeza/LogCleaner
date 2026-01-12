@@ -1,0 +1,23 @@
+{
+    "name": "aoropeza/logcleaner",
+    "version": "1.0.0",
+    "description": "Automated log directory cleanup for Magento 2 based on file count limits.",
+    "type": "magento2-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adolfo Oropeza",
+            "email": "adolforopeza01@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Aoropeza\\LogCleaner\\": ""
+        }
+    }
+}
