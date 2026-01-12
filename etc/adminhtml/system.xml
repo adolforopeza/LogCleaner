@@ -31,6 +31,11 @@
                     <label>Frequency</label>
                     <comment>frequency at which the cron is run, Ex. * * * * *  to run every minute</comment>
                 </field>
+                <field id="backup" type="select" sortOrder="5" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+                    <label>Enable Backup Log</label>
+                    <comment>Enables or Disables Backup Log.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
             <group id="folders" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1" translate="label">
                 <label>Folders to clean</label>
