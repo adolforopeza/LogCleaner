@@ -42,6 +42,7 @@ Navigate to **Store > Configuration > Dev Oropeza > Log Directory**.
 - **Enable**: Enable or disable the module functionalities.
 - **Directory Capacity**: Enable to check directory size before cleaning.
 - **Directory Size**: (If enabled above) set the size threshold (e.g., `1GB`, `500MB`). If a directory exceeds this size, it will be cleaned.
+- **Backup Directory**: Enable to create a zip backup of the directory before deletion. backups are stored in `var/backups/`.
 - **Frequency**: Cron expression for how often the check runs (e.g., `* * * * *` for every minute, `0 2 * * *` for daily at 2 AM).
 
 ### Folders to Clean
