@@ -7,6 +7,7 @@
                 <capacity_conf>0</capacity_conf>
                 <capacity>1GB</capacity>
 				<frequency>* * * * *</frequency>
+				<backup>0</backup>
 			</general>
 		</log_cleaner>
 	</default>
