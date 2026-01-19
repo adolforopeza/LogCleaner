@@ -52,4 +52,4 @@ Navigate to **Store > Configuration > Dev Oropeza > Log Directory**.
 
 Copyright © 2026 Adolfo Oropeza. All rights reserved.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
