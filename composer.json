@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Automated log directory cleanup for Magento 2 based on file count limits.",
     "type": "magento2-module",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Adolfo Oropeza",
