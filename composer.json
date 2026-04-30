@@ -11,7 +11,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "php": "^8.1",
+        "magento/framework": "^2.4.4"
+    },
     "autoload": {
         "files": [
             "registration.php"
@@ -19,5 +22,16 @@
         "psr-4": {
             "Aoropeza\\LogCleaner\\": ""
         }
+    },
+    "keywords": [
+        "magento2",
+        "log",
+        "cleanup",
+        "maintenance",
+        "cron"
+    ],
+    "homepage": "https://github.com/aoropeza/magento2-logcleaner",
+    "support": {
+        "email": "adolforopeza01@gmail.com"
     }
 }
